@@ -30,7 +30,7 @@ func GetUser(res http.ResponseWriter, req *http.Request) {
 
 	log.Printf("Proccess user %v", userId)
 
-	user, apiErr := services.GetUser(userId)
+	user, apiErr := services.UsersService.GetUser(userId)
 	if apiErr != nil {
 		res.WriteHeader(apiErr.StatusCode)
 

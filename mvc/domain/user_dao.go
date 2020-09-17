@@ -21,9 +21,12 @@ var (
 			Email:     "marcelo.r.cardozo.g.x@gmail.com",
 		},
 	}
+	UserDao userDao
 )
 
-func GetUser(userId int64) (*User, *utils.ApiError) {
+type userDao struct {}
+
+func (us *userDao)GetUser(userId int64) (*User, *utils.ApiError) {
 	value, ok := users[userId]
 	if !ok {
 		return nil, &utils.ApiError{
