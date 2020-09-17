@@ -29,7 +29,7 @@ func GetUser(userId int64) (*User, *utils.ApiError) {
 		return nil, &utils.ApiError{
 			Message:    fmt.Sprintf("User %v not found", userId),
 			StatusCode: http.StatusNotFound,
-			Code:       "not found",
+			Code:       "not_found",
 		}
 	}
 	return value, nil
