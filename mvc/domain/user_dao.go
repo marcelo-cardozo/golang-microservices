@@ -21,8 +21,18 @@ var (
 			Email:     "marcelo.r.cardozo.g.x@gmail.com",
 		},
 	}
-	UserDao userDao
+	UserDao usersDaoInterface
 )
+
+// init es la primera funcion del package que se llama
+func init() {
+	UserDao = &userDao{}
+}
+
+
+type usersDaoInterface interface {
+	GetUser(int642 int64)(*User, *utils.ApiError)
+}
 
 type userDao struct {}
 

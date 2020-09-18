@@ -10,7 +10,7 @@ func TestGetUserNotFound(t *testing.T) {
 	// initialization
 
 	// execution
-	user, apiErr := GetUser(0)
+	user, apiErr := UserDao.GetUser(0)
 
 	// validation
 	assert.Nil(t, user, "User was not expected with userid 0")
@@ -22,7 +22,7 @@ func TestGetUserNotFound(t *testing.T) {
 }
 
 func TestGetUserFound(t *testing.T) {
-	user, apiErr := GetUser(1)
+	user, apiErr := UserDao.GetUser(1)
 
 	assert.Nil(t, apiErr, "Error should be nil")
 	assert.NotNil(t, user)
