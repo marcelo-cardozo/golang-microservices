@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"encoding/json"
+	"github.com/gin-gonic/gin"
 	"github.com/marcelo-cardozo/golang-microservices/mvc/services"
 	"github.com/marcelo-cardozo/golang-microservices/mvc/utils"
 	"log"
@@ -9,9 +9,9 @@ import (
 	"strconv"
 )
 
-func GetUser(res http.ResponseWriter, req *http.Request) {
+func GetUser(c *gin.Context) {
 	// only gets the parameters for the service
-	userIdParam := req.URL.Query().Get("id")
+	userIdParam := c.Param("user_id")
 	userId, err := strconv.ParseInt(userIdParam, 10, 64)
 	if err != nil {
 		apiErr := &utils.ApiError{
@@ -19,12 +19,7 @@ func GetUser(res http.ResponseWriter, req *http.Request) {
 			StatusCode: http.StatusBadRequest,
 			Code:       "bad request",
 		}
-
-		res.WriteHeader(apiErr.StatusCode)
-
-		jsonValue, _ := json.Marshal(apiErr)
-		res.Write(jsonValue)
-
+		utils.RespondError(c, apiErr)
 		return
 	}
 
@@ -32,15 +27,9 @@ func GetUser(res http.ResponseWriter, req *http.Request) {
 
 	user, apiErr := services.UsersService.GetUser(userId)
 	if apiErr != nil {
-		res.WriteHeader(apiErr.StatusCode)
-
-		jsonValue, _ := json.Marshal(apiErr)
-		res.Write(jsonValue)
-
+		utils.RespondError(c, apiErr)
 		return
 	}
 
-	jsonResponse, _ := json.Marshal(user)
-
-	res.Write(jsonResponse)
+	utils.Respond(c, http.StatusOK, user)
 }

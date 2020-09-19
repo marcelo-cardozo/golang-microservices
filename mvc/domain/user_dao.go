@@ -24,7 +24,9 @@ var (
 	UserDao usersDaoInterface
 )
 
-// init es la primera funcion del package que se llama
+// init es la primera funcion del package que se llama,
+// se llama cuando se coloca el package en el import de
+// un archivo (solo se inicializa en el primer import)
 func init() {
 	UserDao = &userDao{}
 }
