@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"encoding/json"
+	"errors"
 	"github.com/marcelo-cardozo/golang-microservices/src/api/domain/github"
 	"net/http"
 )
@@ -55,4 +57,12 @@ func GithubErrorToApiError(githubError *github.ErrorResponse) ApiError {
 		Status:  githubError.StatusCode,
 		Message: githubError.Message,
 	}
+}
+
+func BytesToApiError(bytes []byte) (ApiError, error) {
+	var apiErr apiError
+	if err := json.Unmarshal(bytes, &apiErr); err != nil {
+		return nil, errors.New("Invalid json body")
+	}
+	return &apiErr, nil
 }
