@@ -25,3 +25,20 @@ func CreateRepo(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, response)
 }
+
+func CreateRepos(c *gin.Context) {
+	var bodyRequest repositories.CreateReposRequest
+	if err := c.ShouldBindJSON(&bodyRequest); err != nil {
+		apiErr := utils.BadRequestApiError("invalid json body")
+		c.JSON(apiErr.GetStatus(), apiErr)
+		return
+	}
+
+	response, apiErr := services.RepoService.CreateRepos(bodyRequest)
+	if apiErr != nil {
+		c.JSON(apiErr.GetStatus(), apiErr)
+		return
+	}
+
+	c.JSON(response.StatusCode, response)
+}
